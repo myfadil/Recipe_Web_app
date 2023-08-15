@@ -119,13 +119,12 @@ export default function Menu() {
                                 </div>
                                 <div className="d-flex flex-column ms-4">
                                     <h6 className="mb-0">
-                                        <a
-                                            href="#"
+                                        <Link to="/detail-profile"
                                             className="text-black"
                                             style={{ textDecoration: "none" }}
                                         >
                                             Ainz
-                                        </a>
+                                        </Link>
                                     </h6>
                                     <p className="mb-0 text-start fw-bold">{pagination.totalData} Recipes</p>
                                 </div>
