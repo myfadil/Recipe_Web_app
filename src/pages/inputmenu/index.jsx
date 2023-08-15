@@ -8,10 +8,6 @@ import Navbar from "../../components/Navbar"
 
 
 
-let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFhYWFAZXhhbXBsZS5jb20iLCJpZCI6MiwiaWF0IjoxNjkxNDg0OTYxfQ.QlyRvZ86J9W30upRg6SCx21VXg0vWEzgiPV7IWv3LCU'
-
-
-
 export default function AddMenu() {
     const navigate = useNavigate();
     const [photo, setPhoto] = useState(null)
@@ -26,7 +22,7 @@ export default function AddMenu() {
     const getCategory = () => {
         axios.get(`http://localhost:4000/category`, {
             headers: {
-                Authorization: `Bearer ${token}`
+                Authorization : `Bearer ${localStorage.getItem("token")}`
             }
         })
             .then((res) => {
@@ -56,8 +52,7 @@ export default function AddMenu() {
 
         axios.post(`http://localhost:4000/recipe`, bodyFormData, {
             headers: {
-                Authorization: `Bearer ${token}`,
-                "Content-Type": 'multipart/form-data'
+                Authorization : `Bearer ${localStorage.getItem("token")}`,
             }
         })
             .then((res) => {

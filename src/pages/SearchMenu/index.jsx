@@ -8,7 +8,6 @@ import Navbar from "./../../components/Navbar"
 import './index.css'
 
 
-let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFhYWFAZXhhbXBsZS5jb20iLCJpZCI6MiwiaWF0IjoxNjkxNDg0OTYxfQ.QlyRvZ86J9W30upRg6SCx21VXg0vWEzgiPV7IWv3LCU'
 
 export default function SearchMenu() {
     const [data, setData] = useState(null)
@@ -21,7 +20,7 @@ export default function SearchMenu() {
     const getData = () => {
         axios.get(`http://localhost:4000/recipe?page=${currentPage}&&limit=5&sort=ASC&sortBy=id${searchKeyword && `&searchRecipe=${searchKeyword}&searchBy=ingredients`}`, {
             headers: {
-                Authorization: `Bearer ${token}`
+                Authorization : `Bearer ${localStorage.getItem("token")}`
             }
         })
             .then((res) => {

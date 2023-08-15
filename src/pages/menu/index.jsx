@@ -8,7 +8,6 @@ import MyNavbar from "./../../components/Navbar"
 import './index.css'
 
 
-let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFhYWFAZXhhbXBsZS5jb20iLCJpZCI6MiwiaWF0IjoxNjkxNDg0OTYxfQ.QlyRvZ86J9W30upRg6SCx21VXg0vWEzgiPV7IWv3LCU'
 
 export default function Menu() {
     const today = new Date();
@@ -28,7 +27,7 @@ export default function Menu() {
     const getData = () => {
         axios.get(`http://localhost:4000/recipe`, {
             headers: {
-                Authorization: `Bearer ${token}`
+                Authorization : `Bearer ${localStorage.getItem("token")}`
             }
         })
             .then((res) => {
@@ -63,7 +62,7 @@ export default function Menu() {
                     onClick: () => {
                         axios.delete(`http://localhost:4000/recipe/${item.id}`, {
                             headers: {
-                                Authorization: `Bearer ${token}`
+                                Authorization : `Bearer ${localStorage.getItem("token")}`
                             }
                         })
                             .then((res) => {
@@ -76,7 +75,7 @@ export default function Menu() {
                             .catch((err) => {
                                 console.log(err)
                                 getData()
-                                toast.error(`${err}`)
+                                toast.error(`Recipe bukan milik anda`)
                                 // setAlertData({ ...alertData, type: "danger", message: err.response.data.message })
                                 // setShowAlert(true)
                             })
@@ -96,7 +95,7 @@ export default function Menu() {
         <>
 
             <>
-                <ToastContainer autoClose={1000} />
+                <ToastContainer autoClose={2000} />
                 <MyNavbar />
                 <div className="mt-5">
                     <div className="container">
@@ -191,6 +190,8 @@ export default function Menu() {
                                     <div className="col-md-7 ">
                                         <div className="card-body">
                                             <h5 className="card-title">{item.title}</h5>
+                                            <p className="mb-0">Author : {item.author}</p>
+                                            <br/>
                                             <p className="mb-0">Ingredients :</p>
                                             <br/>
                                             <p className="card-text">

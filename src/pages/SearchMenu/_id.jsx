@@ -5,7 +5,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import Navbar from "./../../components/Navbar"
 import './_id.css'
 
-let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFhYWFAZXhhbXBsZS5jb20iLCJpZCI6MiwiaWF0IjoxNjkxNDg0OTYxfQ.QlyRvZ86J9W30upRg6SCx21VXg0vWEzgiPV7IWv3LCU'
 
 function MenuById() {
     const today = new Date();
@@ -18,7 +17,7 @@ function MenuById() {
     const getData = () => {
         axios.get(`http://localhost:4000/recipe/${id}`, {
             headers: {
-                Authorization: `Bearer ${token}`
+                Authorization : `Bearer ${localStorage.getItem("token")}`
             }
         })
             .then((res) => {

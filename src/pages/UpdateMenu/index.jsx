@@ -4,10 +4,8 @@ import { useParams } from 'react-router'
 import './index.css'
 import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import MyNavbar from '../../components/Navbar';
 
-
-
-let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFhYWFAZXhhbXBsZS5jb20iLCJpZCI6MiwiaWF0IjoxNjkxNDg0OTYxfQ.QlyRvZ86J9W30upRg6SCx21VXg0vWEzgiPV7IWv3LCU'
 
 
 export default function UpdateMenu() {
@@ -25,7 +23,7 @@ export default function UpdateMenu() {
     const getData = () => {
         axios.get(`http://localhost:4000/recipe/${menuId}`, {
             headers: {
-                Authorization: `Bearer ${token}`
+                Authorization : `Bearer ${localStorage.getItem("token")}`
             }
         })
             .then((res) => {
@@ -40,7 +38,7 @@ export default function UpdateMenu() {
     const getCategory = () => {
         axios.get(`http://localhost:4000/category`, {
             headers: {
-                Authorization: `Bearer ${token}`
+                Authorization : `Bearer ${localStorage.getItem("token")}`
             }
         })
             .then((res) => {
@@ -70,7 +68,7 @@ export default function UpdateMenu() {
 
         axios.put(`http://localhost:4000/recipe/${menuId}`, bodyFormData, {
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization : `Bearer ${localStorage.getItem("token")}`,
                 "Content-Type": 'multipart/form-data'
             }
         })
@@ -82,7 +80,7 @@ export default function UpdateMenu() {
             })
             .catch((err) => {
                 console.log(err);
-                toast.error(err.message)
+                toast.error('Recipe buka milik anda')
 
             })
     }
@@ -104,6 +102,7 @@ export default function UpdateMenu() {
     return (
         <div className="container" style={{ backgroundColor: "white" }}>
             <ToastContainer />
+            <MyNavbar />
             <div className="border-image">
                 <div className="container text-center">
                     <div className="row align-items-start">
