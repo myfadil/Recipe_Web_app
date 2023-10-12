@@ -20,7 +20,7 @@ export default function AddMenu() {
     })
 
     const getCategory = () => {
-        axios.get(`http://localhost:4000/category`, {
+        axios.get(import.meta.env.VITE_BASE_URL+`category`, {
             headers: {
                 Authorization : `Bearer ${localStorage.getItem("token")}`
             }
@@ -50,7 +50,7 @@ export default function AddMenu() {
             return toast.error('Please add photo first!')
         }
 
-        axios.post(`http://localhost:4000/recipe`, bodyFormData, {
+        axios.post(import.meta.env.VITE_BASE_URL+`recipe`, bodyFormData, {
             headers: {
                 Authorization : `Bearer ${localStorage.getItem("token")}`,
             }
@@ -84,7 +84,7 @@ export default function AddMenu() {
     }
 
     return (
-        <div className="container" style={{ backgroundColor: "white" }}>
+        <>
             <ToastContainer />
             <Navbar />
             <div className="border-image">
@@ -164,7 +164,7 @@ export default function AddMenu() {
                     <div className="arkademy">@Arkademy</div>
                 </div>
             </div>
-        </div>
+        </>
 
     )
 }

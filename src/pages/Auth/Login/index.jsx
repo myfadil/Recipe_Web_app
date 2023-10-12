@@ -2,8 +2,12 @@ import axios from 'axios'
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux';
+import { login } from '../../../redux/action/auth';
+
 
 export default function Login() {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const [inputData, setInputData] = useState({
         email:'',
@@ -11,7 +15,7 @@ export default function Login() {
     });
     const [isChecked, setIsChecked] = useState(false);
 
-    let url = import.meta.env.VITE_BASE_URL;
+    // let url = import.meta.env.VITE_BASE_URL;
 
     const postData = (e) => {
         e.preventDefault();
@@ -21,20 +25,22 @@ export default function Login() {
         }
 
         console.log(inputData);
-        axios.post(url+`/users/login`,inputData)
-        .then((res) => {
-            console.log(res);
-            localStorage.setItem("token",res.data.token);
-            localStorage.setItem("username",res.data.data[0].name);
-            localStorage.setItem("photo",res.data.data[0].photo);
-            localStorage.setItem("email",res.data.data[0].email);
-            localStorage.setItem("id",res.data.data[0].id);
-            navigate('/');
-        })
-        .catch((err) => {
-            alert(err.response.data.message);
-        });
+    //     axios.post(url+`/users/login`,inputData)
+    //     .then((res) => {
+    //         console.log(res);
+    //         localStorage.setItem("token",res.data.token);
+    //         localStorage.setItem("username",res.data.data[0].name);
+    //         localStorage.setItem("photo",res.data.data[0].photo);
+    //         localStorage.setItem("email",res.data.data[0].email);
+    //         localStorage.setItem("id",res.data.data[0].id);
+    //         navigate('/');
+    //     })
+    //     .catch((err) => {
+    //         alert(err.response.data.message);
+    //     });
+    dispatch (login(inputData,navigate))
     };
+
 
     const onChange = (e) => {
         setInputData({
@@ -52,7 +58,7 @@ export default function Login() {
             <Row>
                 <Col md={12}>
                     <div className="mt-5 text-center">
-                        <img src="" alt="logo" width="100px" />
+                        <img src="./src/assets/barbecue 1.svg" alt="logo" width="100px" />
                         <h4 className="my-3 fw-bold text-warning">Welcome</h4>
                         <p>Log in into your existing account</p>
                     </div>

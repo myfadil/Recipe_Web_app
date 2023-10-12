@@ -21,7 +21,7 @@ export default function UpdateMenu() {
     })
 
     const getData = () => {
-        axios.get(`http://localhost:4000/recipe/${menuId}`, {
+        axios.get(import.meta.env.VITE_BASE_URL+`recipe/${menuId}`, {
             headers: {
                 Authorization : `Bearer ${localStorage.getItem("token")}`
             }
@@ -36,7 +36,7 @@ export default function UpdateMenu() {
     }
 
     const getCategory = () => {
-        axios.get(`http://localhost:4000/category`, {
+        axios.get(import.meta.env.VITE_BASE_URL+`category`, {
             headers: {
                 Authorization : `Bearer ${localStorage.getItem("token")}`
             }
@@ -66,10 +66,9 @@ export default function UpdateMenu() {
 
         console.log(bodyFormData)
 
-        axios.put(`http://localhost:4000/recipe/${menuId}`, bodyFormData, {
+        axios.put(import.meta.env.VITE_BASE_URL+`recipe/${menuId}`, bodyFormData, {
             headers: {
                 Authorization : `Bearer ${localStorage.getItem("token")}`,
-                "Content-Type": 'multipart/form-data'
             }
         })
             .then((res) => {
@@ -100,7 +99,7 @@ export default function UpdateMenu() {
     }
 
     return (
-        <div className="container" style={{ backgroundColor: "white" }}>
+        <>
             <ToastContainer />
             <MyNavbar />
             <div className="border-image">
@@ -108,7 +107,7 @@ export default function UpdateMenu() {
                     <div className="row align-items-start">
                         <div className="col">
                             <form className="input-menu" onSubmit={postData} >
-                                <div className="change-photo">
+                                <div className="change-photo" style={{height: "100vh", width: "50vw"}}>
                                     <img src={inputData.photo_url} className='img-fluid' />
                                     <label>
                                         <input name='photo' type="file" onChange={onChangePhoto} style={{ display: "none" }} />
@@ -159,6 +158,6 @@ export default function UpdateMenu() {
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     )
 }

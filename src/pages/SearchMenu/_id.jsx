@@ -15,7 +15,7 @@ function MenuById() {
 
 
     const getData = () => {
-        axios.get(`http://localhost:4000/recipe/${id}`, {
+        axios.get(import.meta.env.VITE_BASE_URL+`recipe/${id}`, {
             headers: {
                 Authorization : `Bearer ${localStorage.getItem("token")}`
             }

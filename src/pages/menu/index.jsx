@@ -12,7 +12,7 @@ import './index.css'
 export default function Menu() {
     const today = new Date();
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-     const formattedDate = today.toLocaleDateString('en-US', options);
+    const formattedDate = today.toLocaleDateString('en-US', options);
     const [data, setData] = useState(null)
     const [pagination, setPagination] = useState({ totalData: 0, totalPage: 0, pageNow: 0 })
     const [showAlert, setShowAlert] = useState(false)
@@ -25,7 +25,7 @@ export default function Menu() {
     })
 
     const getData = () => {
-        axios.get(`http://localhost:4000/recipe`, {
+        axios.get(import.meta.env.VITE_BASE_URL+`recipe?page=${currentPage}&&limit=5`, {
             headers: {
                 Authorization : `Bearer ${localStorage.getItem("token")}`
             }
@@ -60,7 +60,7 @@ export default function Menu() {
                 {
                     label: "Delete",
                     onClick: () => {
-                        axios.delete(`http://localhost:4000/recipe/${item.id}`, {
+                        axios.delete(import.meta.env.VITE_BASE_URL+`recipe/${item.id}`, {
                             headers: {
                                 Authorization : `Bearer ${localStorage.getItem("token")}`
                             }
@@ -93,7 +93,6 @@ export default function Menu() {
 
     return (
         <>
-
             <>
                 <ToastContainer autoClose={2000} />
                 <MyNavbar />
@@ -109,21 +108,27 @@ export default function Menu() {
                                     }}
                                 >
                                     <div className="d-flex ms-2">
-                                        <img
-                                            src="./../../src/assets/ainz.jpg"
-                                            className="rounded-circle "
-                                            alt="profile"
-                                            style={{ width: 60 }}
-                                        />
+                                    {localStorage.getItem("photo") !== "null" ?
+            <img
+              src={localStorage.getItem("photo")}
+              alt="profile"
+              width="90px"
+              height="60px"
+              style={{ borderRadius: '50%' }}
+            /> : <img src="https://i.pinimg.com/originals/f1/0f/f7/f10ff70a7155e5ab666bcdd1b45b726d.jpg" 
+            alt="profile"
+              width="60px"
+              style={{ borderRadius: '50%' }}/>
+          }
                                     </div>
                                 </div>
                                 <div className="d-flex flex-column ms-4">
                                     <h6 className="mb-0">
-                                        <Link to="/detail-profile"
+                                        <Link to={`/detail-profile/${localStorage.getItem("id")}`}
                                             className="text-black"
                                             style={{ textDecoration: "none" }}
                                         >
-                                            Ainz
+                                            {localStorage.getItem("username")}
                                         </Link>
                                     </h6>
                                     <p className="mb-0 text-start fw-bold">{pagination.totalData} Recipes</p>
@@ -178,10 +183,10 @@ export default function Menu() {
                                     <div className="col-md-5" style={{ objectFit: 'cover' }}>
                                         <img
                                             src={item.photo}
-                                            className="img-fluid rounded-start"
+                                            className="img-fluid img-thumbnail rounded-start"
                                             style={{
-                                                width: '100%',
-                                                height: '100%'
+                                                width: '250px',
+                                                height: '250px'
                                             }}
                                             alt="..."
                                         />
@@ -243,8 +248,6 @@ export default function Menu() {
                     </div>
                 </div>
             </>
-
-
         </>
     )
 }

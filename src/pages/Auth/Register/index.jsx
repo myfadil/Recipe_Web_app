@@ -48,7 +48,7 @@ export default function Register() {
             <Row>
                 <Col md={12}>
                     <div className="mt-5 text-center">
-                        <img src="" alt="logo" width="100px" />
+                        <img src="./src/assets/barbecue 1.svg" alt="logo" width="100px" />
                         <h4 className="my-3 fw-bold text-warning">Register</h4>
                         <p>Create a new account</p>
                     </div>

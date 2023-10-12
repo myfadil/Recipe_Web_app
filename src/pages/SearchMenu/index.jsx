@@ -18,7 +18,7 @@ export default function SearchMenu() {
     const [searchKeyword, setSeachKeyword] = useState("")
 
     const getData = () => {
-        axios.get(`http://localhost:4000/recipe?page=${currentPage}&&limit=5&sort=ASC&sortBy=id${searchKeyword && `&searchRecipe=${searchKeyword}&searchBy=ingredients`}`, {
+        axios.get(import.meta.env.VITE_BASE_URL+`recipe?searchRecipe=${searchKeyword}&searchBy=title&sort=ASC&page=${currentPage}&&limit=5`, {
             headers: {
                 Authorization : `Bearer ${localStorage.getItem("token")}`
             }
@@ -48,13 +48,15 @@ export default function SearchMenu() {
     const searchMenu = (event) => {
         event.preventDefault()
         setCurrentPage(1)
-        axios.get(`http://localhost:4000/recipe?page=${currentPage}&&limit=5&sort=ASC&sortBy=id&searchRecipe=${searchKeyword}&searchBy=ingredients`, {
+        axios.get(import.meta.env.VITE_BASE_URL+`recipe?page=${currentPage}&limit=5&searchRecipe=${searchKeyword}`, {
             headers: {
-                Authorization: `Bearer ${token}`
+                Authorization: `Bearer ${localStorage.getItem("token")}`
             }
         })
             .then((res) => {
                 console.log(res)
+                console.log(searchKeyword)
+                console.log(currentPage)
                 setData(res.data.data)
                 setPagination(res.data.pagination)
                 setStartData(1 + ((currentPage - 1) * 5))
@@ -70,6 +72,8 @@ export default function SearchMenu() {
                 toast.error(`${err}`)
             })
     }
+
+    
 
 
     return (
@@ -88,7 +92,7 @@ export default function SearchMenu() {
                                     </h1>
                                 </div>
                                 <div className="search-menu">
-                                    <form className="d-flex" role="search" onSubmit={searchMenu}>
+                                    <form className="d-flex" role="search" onSubmit={searchMenu} >
                                         <input
                                             className="form-control me-2"
                                             type="search"
@@ -102,7 +106,7 @@ export default function SearchMenu() {
                                         </button>
                                     </form>
                                 </div>
-                                <div className="button-link">
+                                <div className="button-link d-flex gap-5">
                                     <button
                                         type="button"
                                         className="btn btn-primary btn-sm"
@@ -139,8 +143,9 @@ export default function SearchMenu() {
                                                 <div className="col-md-4">
                                                     <img
                                                         src={`${item.photo}`}
-                                                        className="img-fluid rounded-start"
+                                                        className="img-fluid img-thumbnail rounded-start"
                                                         alt="recipe-image"
+                                                        style={{height: "250px", width: "250px"}}
                                                     />
                                                 </div>
                                                 <div className="col-md-8">
@@ -170,7 +175,7 @@ export default function SearchMenu() {
                                                             className="rounded-circle"
                                                             alt="profilPicture"
                                                         />
-                                                        <p>Ainz</p>
+                                                        <p>{item.author}</p>
                                                         <p className="card-text">
                                                             <small className="text-body-secondary">
                                                                 Last updated 3 mins ago

@@ -10,6 +10,7 @@ import MenuById from './pages/SearchMenu/_id';
 import Login from './pages/Auth/Login'
 import AuthChecker from './components/AuthChecker'
 import Register from './pages/Auth/Register';
+import DetailProfile from './pages/Profile/DetailProfile';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -27,6 +28,7 @@ function App() {
           <Route path='/input-menu' element={<AddMenu />} />
           <Route path='/search-menu' element={<SearchMenu />} />
           <Route path='/detail-menu/:id' element={<MenuById />} />
+          <Route path='/detail-profile/:id' element={<DetailProfile />} />
 
           {/* <Route path='/menu-detail/:menuId' element={<MenuDetail />} />
         <Route path='/inputmenu' element={<InputMenu />} /> */}
