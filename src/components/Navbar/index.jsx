@@ -15,7 +15,7 @@ function MyNavbar() {
     <Navbar expand="lg">
       <Navbar.Toggle aria-controls="navbarSupportedContent" />
       <Navbar.Collapse id="navbarSupportedContent">
-        <Nav className="me-auto">
+        <Nav className="me-auto d-flex gap-3 mx-5 mb-4">
         <Link to="/menu" className="text-decoration-none fw-bold fs-5">
                 <Nav.Link as="div" style={{ color: "#2E266F" }}>
                   Home

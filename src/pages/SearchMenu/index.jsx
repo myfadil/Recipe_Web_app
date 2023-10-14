@@ -85,8 +85,8 @@ export default function SearchMenu() {
                 <>
                     <div className="container-fluid">
                         <div className="row">
-                            <div className="left-section col-8" style={{ backgroundColor: "white" }}>
-                                <div className="sub-title">
+                            <div className="left-section col-sm-12 col-md-12 col-lg-8 col-xl-8" style={{ backgroundColor: "white" }}>
+                                <div className="sub-title d-none d-lg-block">
                                     <h1>
                                         Discover Recipe <br /> &amp; Delicious Food
                                     </h1>
@@ -106,7 +106,7 @@ export default function SearchMenu() {
                                         </button>
                                     </form>
                                 </div>
-                                <div className="button-link d-flex gap-5">
+                                <div className="button-link d-flex row-gap-sm-5 gap-lg-5 gap-md-3">
                                     <button
                                         type="button"
                                         className="btn btn-primary btn-sm"
@@ -194,7 +194,7 @@ export default function SearchMenu() {
 
                                 </div>
                             </div>
-                            <div className="right-section col-4" style={{ backgroundColor: "white" }}>
+                            <div className="right-section col-4 d-none d-lg-block" style={{ backgroundColor: "white" }}>
                                 <div className="vertikal-line"></div>
                                 <div className="vertikal-line"></div>
                             </div>

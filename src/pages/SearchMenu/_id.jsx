@@ -8,10 +8,17 @@ import './_id.css'
 
 function MenuById() {
     const today = new Date();
-  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-  const formattedDate = today.toLocaleDateString('en-US', options);
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const formattedDate = today.toLocaleDateString('en-US', options);
     const { id } = useParams()
     const [data, setData] = useState(null)
+    const [comment, setComment] = useState(null)
+    const [totalComment, setTotalComment] = useState(0)
+    const [inputComment, setInputComment] = useState({
+        recipe_id: id,
+        comment_text: "",
+        user_id: localStorage.getItem("id"),
+    })
 
 
     const getData = () => {
@@ -33,11 +40,60 @@ function MenuById() {
             })
     }
 
+    const getComment = () => {
+        axios.get(import.meta.env.VITE_BASE_URL+`comment/${id}`, {
+            headers: {
+                Authorization : `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+            .then((res) => {
+                console.log(res)
+                setTotalComment(res.data.data.length)
+                setComment(res.data.data)
+                toast.success('Berhasil get comment Recipe')
+
+
+            })
+            .catch((err) => {
+                console.log(err)
+                toast.error(`${err}`)
+            })
+    }
+
     useEffect(() => {
         getData()
+        getComment()
     }, [])
 
+    const postData = (event) => {
+        event.preventDefault();
+        axios.post(import.meta.env.VITE_BASE_URL + "comment", inputComment, {
+            headers: {
+                Authorization : `Bearer ${localStorage.getItem("token")}`,
+            }
+        })
+            .then((res) => {
+                console.log(res);
+                toast.success('Comment Success');
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+            })
+            .catch((err) => {
+                console.log(err);
+                toast.error(err.message);
+            });
+    }
 
+    const onChange = (e) => {
+        setInputComment({
+            ...inputComment,
+            [e.target.name]: e.target.value
+        })
+        console.log(inputComment)
+    }
+
+    
     return (
         <>
             <ToastContainer autoClose={1000} />
@@ -54,31 +110,43 @@ function MenuById() {
                                 }}
                             >
                                 <div className="d-flex ms-2">
+                                    {data?.author_photo !== null ? (
                                     <img
-                                        src="./../../src/assets/ainz.jpg"
+                                        src={data?.author_photo} 
                                         className="rounded-circle "
                                         alt="profile"
-                                        style={{ width: 40 }}
+                                        width="90px"
+                                        height="60px"
+                                        // style={{ width: 40 }}
                                     />
+                                    ) : (
+                                    <img
+                                        src="https://i.pinimg.com/originals/f1/0f/f7/f10ff70a7155e5ab666bcdd1b45b726d.jpg"
+                                        className="rounded-circle "
+                                        alt="profile"
+                                        width="90px"
+                                        height="60px"
+                                        // style={{ width: 40 }}
+                                    />
+                                    )}
                                 </div>
                             </div>
                             <div className="d-flex flex-column ms-4">
                                 <h6 className="mb-0">
                                     <a
-                                        href="#"
                                         className="text-black"
                                         style={{ textDecoration: "none" }}
                                     >
-                                        Ainz
+                                        {data?.author}
                                     </a>
                                 </h6>
-                                <p className="mb-0 text-start fw-bold">10 Recipes</p>
+                                <p className="mb-0 text-start fw-bold">{data?.category}</p>
                             </div>
                         </div>
                         <div className="d-flex flex-column text-end">
                             <p className="mb-0">{formattedDate}</p>
                             <p className="mb-0">
-                                20 Likes -<span> 2 Comments</span>
+                                20 Likes -<span> {totalComment} Comments</span>
                             </p>
                         </div>
                     </div>
@@ -87,9 +155,10 @@ function MenuById() {
                         <div className="row mb-5">
                             <div className="col" style={{ textAlign: "center" }}>
                                 <img
-                                    className="rounded img-fluid"
+                                    className="rounded img-fluid img-thumbnail"
                                     src={data?.photo}
                                     alt=""
+                                    style={{ width: "400px", height: "350px" }}
                                 />
                             </div>
                         </div>
@@ -106,18 +175,20 @@ function MenuById() {
                                 <img src="/./../../src/assets/jempol.svg" alt="Gambar 2" />
                             </button>
                         </div>
-                        <div
+                        <div 
                             className="card py-5 border-start-0 border-end-0 border-3 mb-5"
                             style={{ borderColor: "#EFC81A !important" }}
                         >
-                            <div className="d-flex align-items-center mb-5">
+                            {comment?.map((item, index) => {
+                                return (
+                                    <div className="d-flex align-items-center mb-5">
                                 <div className="me-4">
                                     <div className="d-flex ms-2">
                                         <img
-                                            src="/./../../src/assets/ainz.jpg"
+                                            src={item.author_photo !== null ? item.author_photo : "https://i.pinimg.com/originals/f1/0f/f7/f10ff70a7155e5ab666bcdd1b45b726d.jpg"}
                                             className="rounded-circle "
                                             alt="profile"
-                                            style={{ width: 40 }}
+                                            style={{ width: "60px", height: "60px" }}
                                         />
                                     </div>
                                 </div>
@@ -130,62 +201,34 @@ function MenuById() {
                                 >
                                     <h6 className="mb-0">
                                         <a
-                                            href="#"
                                             className="text-black"
                                             style={{ textDecoration: "none" }}
                                         >
-                                            Ainz kecil
+                                            {item.author}
                                         </a>
                                     </h6>
-                                    <p className="mb-0 text-start fw-bold">20 Recipes</p>
+                                    <p className="mb-0 text-start fw-bold">{item.formatted_created_at}</p>
                                 </div>
                                 <p className="message mb-0 ms-3">
-                                    Wow, I just made this and it was delicious! thanks for sharing!
+                                    {item.comment_text}
                                 </p>
                             </div>
-                            <div className="d-flex align-items-center">
-                                <div className="me-4">
-                                    <div className="d-flex ms-2">
-                                        <img
-                                            src="./../../src/assets/ainz.jpg"
-                                            className="rounded-circle "
-                                            alt="profile"
-                                            style={{ width: 40 }}
-                                        />
-                                    </div>
-                                </div>
-                                <div
-                                    className="d-flex flex-column border-end pe-4"
-                                    style={{
-                                        borderWidth: "3px !important",
-                                        borderColor: "#EFC81A !important"
-                                    }}
-                                >
-                                    <h6 className="mb-0">
-                                        <a
-                                            href="#"
-                                            className="text-black"
-                                            style={{ textDecoration: "none" }}
-                                        >
-                                            Ainz besar
-                                        </a>
-                                    </h6>
-                                    <p className="mb-0 text-start fw-bold">15 Recipes</p>
-                                </div>
-                                <p className="message mb-0 ms-3">So simple and delicious!</p>
-                            </div>
+                                )
+                            })} 
                         </div>
                         <div className="mb-5">
                             <div className="row">
                                 <div className="col-12 col-md-6">
-                                    <form action="">
+                                    <form onSubmit={postData}>
                                         <div className="mb-3">
                                             <textarea
                                                 className="form-control bg-body-secondary"
-                                                id="comments"
+                                                id="comment_text"
+                                                name="comment_text"
                                                 rows={5}
                                                 placeholder="Your comment here!"
-                                                defaultValue={""}
+                                                value={inputComment.comment_text} 
+                                                onChange={onChange}
                                             />
                                         </div>
                                         <button

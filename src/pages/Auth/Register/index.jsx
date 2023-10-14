@@ -22,7 +22,7 @@ export default function Register() {
         }
 
         console.log(inputData);
-        axios.post(url + `/users/register`, inputData)
+        axios.post(url + `users/register`, inputData)
             .then((res) => {
                 console.log(res);
                 navigate('/login')

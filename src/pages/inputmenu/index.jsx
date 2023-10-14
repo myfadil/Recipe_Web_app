@@ -45,6 +45,7 @@ export default function AddMenu() {
         bodyFormData.append("ingredients", inputData.ingredients)
         bodyFormData.append("category_id", inputData.category_id)
         bodyFormData.append("image", photo)
+        console.log(bodyFormData.append("title", inputData.title))
 
         if (!photo) {
             return toast.error('Please add photo first!')

@@ -4,7 +4,7 @@ let url = import.meta.env.VITE_BASE_URL;
  export const login = (data,navigate) => async (dispatch) => {
     try { dispatch({type: "AUTH_LOGIN_PENDING"})
     console.log(data)
-    const result = await axios.post(url + `/users/login`, data)
+    const result = await axios.post(url + `users/login`, data)
     localStorage.setItem("token",result.data.token)
     localStorage.setItem("username",result.data.data[0].name);
     localStorage.setItem("photo",result.data.data[0].photo);
