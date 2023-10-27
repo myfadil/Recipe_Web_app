@@ -13,12 +13,18 @@ function MenuById() {
     const { id } = useParams()
     const [data, setData] = useState(null)
     const [comment, setComment] = useState(null)
+    const [like,setLike] = useState(null)
     const [totalComment, setTotalComment] = useState(0)
     const [inputComment, setInputComment] = useState({
         recipe_id: id,
         comment_text: "",
         user_id: localStorage.getItem("id"),
     })
+
+    const inputLike = {
+        ResepID: id,
+        UserID: localStorage.getItem("id"),
+    }
 
 
     const getData = () => {
@@ -40,6 +46,24 @@ function MenuById() {
             })
     }
 
+    const getLike = () => {
+        axios.get(import.meta.env.VITE_BASE_URL+`LikeAndBookmark/like/${id}?UserID=${localStorage.getItem("id")}&ResepID=${id}`, {
+            headers: {
+                Authorization : `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+            .then((res) => {
+                console.log(res)
+                setLike(res.data.data[0])
+
+
+            })
+            .catch((err) => {
+                console.log(err)
+                toast.error(`${err}`)
+            })
+    }
+
     const getComment = () => {
         axios.get(import.meta.env.VITE_BASE_URL+`comment/${id}`, {
             headers: {
@@ -50,7 +74,7 @@ function MenuById() {
                 console.log(res)
                 setTotalComment(res.data.data.length)
                 setComment(res.data.data)
-                toast.success('Berhasil get comment Recipe')
+                // toast.success('Berhasil get comment Recipe')
 
 
             })
@@ -63,6 +87,7 @@ function MenuById() {
     useEffect(() => {
         getData()
         getComment()
+        getLike()
     }, [])
 
     const postData = (event) => {
@@ -93,6 +118,44 @@ function MenuById() {
         console.log(inputComment)
     }
 
+    const postLike = () => {
+        axios.post(import.meta.env.VITE_BASE_URL+`LikeAndBookmark/like?UserID=${localStorage.getItem("id")}`,inputLike, {
+            headers: {
+                Authorization : `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+            .then((res) => {
+                console.log(res);
+                toast.success('Like Success');
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+            })
+            .catch((err) => {
+                console.log(err)
+                toast.error(`${err}`)
+            })
+    }
+
+    const deleteLike = () => {
+        axios.delete(import.meta.env.VITE_BASE_URL+`LikeAndBookmark/like?UserID=${localStorage.getItem("id")}&ResepID=${id}`, {
+            headers: {
+                Authorization : `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+            .then((res) => {
+                console.log(res);
+                toast.success('Delete Like Success');
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+            })
+            .catch((err) => {
+                console.log(err)
+                toast.error(`${err}`)
+            })
+    }
+
     
     return (
         <>
@@ -116,7 +179,7 @@ function MenuById() {
                                         className="rounded-circle "
                                         alt="profile"
                                         width="90px"
-                                        height="60px"
+                                        // height="60px"
                                         // style={{ width: 40 }}
                                     />
                                     ) : (
@@ -125,7 +188,7 @@ function MenuById() {
                                         className="rounded-circle "
                                         alt="profile"
                                         width="90px"
-                                        height="60px"
+                                        // height="60px"
                                         // style={{ width: 40 }}
                                     />
                                     )}
@@ -151,29 +214,37 @@ function MenuById() {
                         </div>
                     </div>
                     <div className="mt-5">
-                        <h1 className="title text-center mb-5">{data?.title}</h1>
+                        <h1 className="title text-center">{data?.title}</h1>
                         <div className="row mb-5">
                             <div className="col" style={{ textAlign: "center" }}>
                                 <img
                                     className="rounded img-fluid img-thumbnail"
                                     src={data?.photo}
                                     alt=""
-                                    style={{ width: "400px", height: "350px" }}
+                                    style={{ width: "350px", height: "300px" }}
                                 />
                             </div>
                         </div>
-                        <div className="mb-5">
+                        <div className="py-5 bg">
                             <h4>Ingredients</h4>
-                            <div>{data?.ingredients}</div>
+                            <div>{data?.ingredients.split(",").map((ingredient, index) => {
+                                                    return <li key={index}>{ingredient}</li>;
+                                                })}</div>
 
                         </div>
                         <div className="d-flex gap-3 mb-5">
                             <button className="icon-button-1">
                                 <img src="./../../src/assets/mark.svg" alt="Gambar 1" />
                             </button>
-                            <button className="icon-button-2">
+                            {like?.id == id ? (
+                            <button className="icon-button-1" onClick={deleteLike}>
+                                <img src="/./../../src/assets/liked.png" alt="Gambar 2" />
+                            </button>
+                            ) : (
+                            <button className="icon-button-2" onClick={postLike}>
                                 <img src="/./../../src/assets/jempol.svg" alt="Gambar 2" />
                             </button>
+                            )}
                         </div>
                         <div 
                             className="card py-5 border-start-0 border-end-0 border-3 mb-5"
@@ -181,7 +252,7 @@ function MenuById() {
                         >
                             {comment?.map((item, index) => {
                                 return (
-                                    <div className="d-flex align-items-center mb-5">
+                                    <div key={index} className="d-flex align-items-center mb-5">
                                 <div className="me-4">
                                     <div className="d-flex ms-2">
                                         <img

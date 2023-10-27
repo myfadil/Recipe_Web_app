@@ -18,9 +18,9 @@ export default function SearchMenu() {
     const [searchKeyword, setSeachKeyword] = useState("")
 
     const getData = () => {
-        axios.get(import.meta.env.VITE_BASE_URL+`recipe?searchRecipe=${searchKeyword}&searchBy=title&sort=ASC&page=${currentPage}&&limit=5`, {
+        axios.get(import.meta.env.VITE_BASE_URL + `recipe?searchRecipe=${searchKeyword}&searchBy=title&sort=ASC&page=${currentPage}&&limit=5`, {
             headers: {
-                Authorization : `Bearer ${localStorage.getItem("token")}`
+                Authorization: `Bearer ${localStorage.getItem("token")}`
             }
         })
             .then((res) => {
@@ -48,7 +48,7 @@ export default function SearchMenu() {
     const searchMenu = (event) => {
         event.preventDefault()
         setCurrentPage(1)
-        axios.get(import.meta.env.VITE_BASE_URL+`recipe?page=${currentPage}&limit=5&searchRecipe=${searchKeyword}`, {
+        axios.get(import.meta.env.VITE_BASE_URL + `recipe?page=${currentPage}&limit=5&searchRecipe=${searchKeyword}`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             }
@@ -73,7 +73,7 @@ export default function SearchMenu() {
             })
     }
 
-    
+
 
 
     return (
@@ -145,7 +145,7 @@ export default function SearchMenu() {
                                                         src={`${item.photo}`}
                                                         className="img-fluid img-thumbnail rounded-start"
                                                         alt="recipe-image"
-                                                        style={{height: "250px", width: "250px"}}
+                                                        style={{ height: "250px", width: "250px" }}
                                                     />
                                                 </div>
                                                 <div className="col-md-8">
@@ -157,7 +157,9 @@ export default function SearchMenu() {
                                                             ingredient:
                                                             <br />
 
-                                                            {item.ingredients}
+                                                            {item.ingredients.split(",").map((ingredient, index) => {
+                                                                return <li key={index}>{ingredient}</li>;
+                                                            })}
                                                         </p>
                                                         <br />
                                                         <button
@@ -168,13 +170,25 @@ export default function SearchMenu() {
                                                             10 Likes - 12 Comment - 3 Bookmark
                                                         </button>
                                                         <br />
-                                                        <img
-                                                            src="./../../src/assets/ainz.jpg"
-                                                            width="50px"
-                                                            height="50px"
-                                                            className="rounded-circle"
-                                                            alt="profilPicture"
-                                                        />
+                                                        {item?.author_photo !== null ? (
+                                                            <img
+                                                                src={item?.author_photo}
+                                                                className="rounded-circle "
+                                                                alt="profile"
+                                                                width="50px"
+                                                            // height="60px"
+                                                            // style={{ width: 40 }}
+                                                            />
+                                                        ) : (
+                                                            <img
+                                                                src="https://i.pinimg.com/originals/f1/0f/f7/f10ff70a7155e5ab666bcdd1b45b726d.jpg"
+                                                                className="rounded-circle "
+                                                                alt="profile"
+                                                                width="50px"
+                                                            // height="60px"
+                                                            // style={{ width: 40 }}
+                                                            />
+                                                        )}
                                                         <p>{item.author}</p>
                                                         <p className="card-text">
                                                             <small className="text-body-secondary">

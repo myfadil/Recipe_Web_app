@@ -1,5 +1,5 @@
 import React from "react";
-import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom'
 // import './index.css'
@@ -38,6 +38,8 @@ function MyNavbar() {
                 </Nav.Link>
               </Link>
         </Nav>
+        {localStorage.getItem("token") !== null ?
+        (
         <div className="d-flex gap-3">
           <div style={{ height: '60px', width: '5px', backgroundColor: '#efc81a' }}></div>
           <div>
@@ -59,6 +61,12 @@ function MyNavbar() {
             <p className="btn m-0 fw-bold" onClick={logout}>Logout</p>
           </div>
         </div>
+        ):(
+        <div className="d-flex gap-3 mx-5">
+          <Button className="btn fw-bold" style={{ backgroundColor: "#EFC81A" }} onClick={() => navigate("/login")}>Login</Button>
+          <Button className="btn fw-bold" style={{ backgroundColor: "#EFC81A" }} onClick={() => navigate("/register")}>Register</Button>
+        </div>  
+          )}
       </Navbar.Collapse>
     </Navbar>
   );

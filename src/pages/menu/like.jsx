@@ -8,23 +8,41 @@ import MyNavbar from "./../../components/Navbar"
 import './index.css'
 import Footer from "../../components/footer";
 
-export default function Menu() {
+
+
+export default function Like() {
     const today = new Date();
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     const formattedDate = today.toLocaleDateString('en-US', options);
     const [data, setData] = useState(null)
-    const [pagination, setPagination] = useState({ totalData: 0, totalPage: 0, pageNow: 0 })
+    // const [pagination, setPagination] = useState({ totalData: 0, totalPage: 0, pageNow: 0 })
     const [showAlert, setShowAlert] = useState(false)
     const [currentPage, setCurrentPage] = useState(1)
-    const [startData, setStartData] = useState(0)
-    const [endData, setEndData] = useState(5)
+    const [totalPages, setTotalPages] = useState(0)
+    // const [startData, setStartData] = useState(5)
+    // const [endData, setEndData] = useState(0)
     const [alertData, setAlertData] = useState({
         type: "",
         message: ""
     })
+    const itemsPerPage = 3;
+    
 
+    const nextPage = () => {
+        if (currentPage < totalPages) {
+          setCurrentPage(currentPage + 1);
+        }
+      };
+      
+      const prevPage = () => {
+        if (currentPage > 1) {
+          setCurrentPage(currentPage - 1);
+        }
+      };
+    //   console.log(data2.data)
+    
     const getData = () => {
-        axios.get(import.meta.env.VITE_BASE_URL+`recipe?page=${currentPage}&&limit=5`, {
+        axios.get(import.meta.env.VITE_BASE_URL+`LikeAndBookmark/like?UserID=${localStorage.getItem("id")}`, {
             headers: {
                 Authorization : `Bearer ${localStorage.getItem("token")}`
             }
@@ -32,21 +50,23 @@ export default function Menu() {
             .then((res) => {
                 console.log(res)
                 setData(res.data.data)
-                setPagination(res.data.pagination)
-                setStartData(1 + ((currentPage - 1) * 5))
-                if (currentPage === res.data.pagination.totalPage) {
-                    setEndData(res.data.pagination.totalData)
-                } else {
-                    setEndData(5 + ((currentPage - 1) * 5))
-                }
-                toast.success('Berhasil Get Data')
-            })
-            .catch((err) => {
-                console.log(err)
-                toast.error(`${err}`)
-            })
-    }
-
+                setTotalPages(Math.ceil(res.data.data.length / itemsPerPage));
+                // setPagination(res.data.data.length)
+                // setStartData(1 + ((currentPage - 1) * 5))
+                // if (currentPage === res.data.data.length) {
+                //     setEndData(res.data.data.length)
+                // } else {
+                    //     setEndData(5 + ((currentPage - 1) * 5))
+                    // }
+                    toast.success('Berhasil Get Data')
+                })
+                .catch((err) => {
+                    console.log(err)
+                    toast.error(`${err}`)
+                })
+            }
+            
+            
     useEffect(() => {
         getData()
     }, [currentPage])
@@ -59,7 +79,7 @@ export default function Menu() {
                 {
                     label: "Delete",
                     onClick: () => {
-                        axios.delete(import.meta.env.VITE_BASE_URL+`recipe/${item.id}`, {
+                        axios.delete(import.meta.env.VITE_BASE_URL+`LikeAndBookmark/like?UserID=${localStorage.getItem("id")}&ResepID=${item.id}`, {
                             headers: {
                                 Authorization : `Bearer ${localStorage.getItem("token")}`
                             }
@@ -130,7 +150,7 @@ export default function Menu() {
                                             {localStorage.getItem("username")}
                                         </Link>
                                     </h6>
-                                    <p className="mb-0 text-start fw-bold">{pagination.totalData} Recipes</p>
+                                    <p className="mb-0 text-start fw-bold">{data?.length} Recipes</p>
                                 </div>
                             </div>
                             <div className="d-flex align-items-center text-end">
@@ -147,8 +167,8 @@ export default function Menu() {
                                         >
                                             <li className="nav-item">
                                                 <a
-                                                    className="nav-link active text-body-secondary fw-bold"
-                                                    href="#"
+                                                    className="nav-link text-body-secondary"
+                                                    href="./Menu"
                                                 >
                                                     Recipes
                                                 </a>
@@ -156,13 +176,13 @@ export default function Menu() {
                                             <li className="nav-item">
                                                 <a
                                                     className="nav-link text-body-secondary"
-                                                    href="./bookmark.html"
+                                                    href="./detail-profile-bookmark.html"
                                                 >
                                                     Bookmarked
                                                 </a>
                                             </li>
                                             <li className="nav-item">
-                                                <a className="nav-link text-body-secondary" href="./likeMenu">
+                                                <a className="nav-link active text-body-secondary fw-bold" href="./likeMenu">
                                                     Liked
                                                 </a>
                                             </li>
@@ -195,12 +215,10 @@ export default function Menu() {
                                             <Link className="text-decoration-none text-black" to={`/detail-menu/${item.id}`}>
                                             <h5 className="card-title">{item.title}</h5>
                                             </Link>
-                                            <p className="mb-0">Author : {item.author}</p>
-                                            <br/>
                                             <p className="mb-0">Ingredients :</p>
                                             <br/>
                                             <p className="card-text">
-                                            {item.ingredients.split(",").map((ingredient, index) => {
+                                                {item.ingredients.split(",").map((ingredient, index) => {
                                                     return <li key={index}>{ingredient}</li>;
                                                 })}
                                             </p>
@@ -211,12 +229,6 @@ export default function Menu() {
                                             >
                                                 10 Likes - 12 Comment - 3 Bookmark
                                             </button>
-                                            <div className="btn-option">
-                                                <Link to={`/update-menu/${item.id}`}>
-                                                    <button className="btn btn-sm btn-primary me-3" >Edit Menu</button>
-                                                </Link>
-                                                <button onClick={() => deleteData(item)} className="btn btn-sm btn-danger">Delete Menu</button>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -224,12 +236,19 @@ export default function Menu() {
                     })}
 
 
+                        {totalPages !== 0 ? (
                     <div className="py-5 d-flex justify-content-center align-items-center">
-                        <button disabled={currentPage < 2} onClick={() => { setCurrentPage(currentPage - 1) }} className="btn btn-warning me-3 px-4">Prev</button>
-                        <h5 className="mb-0">Show {startData} - {endData} From {pagination.totalData}</h5>
-                        < button disabled={currentPage >= pagination.totalPage} onClick={() => { setCurrentPage(currentPage + 1) }} className="btn btn-warning ms-3 px-4">Next</button>
-
+                            <button disabled={currentPage < 2} onClick={prevPage} className="btn btn-warning me-3 px-4">Prev</button>
+                            <h5 className="mb-0">Show Page {currentPage} from {totalPages}</h5>
+                            < button disabled={currentPage === totalPages} onClick={nextPage} className="btn btn-warning ms-3 px-4">Next</button>
                     </div>
+                        ) : (
+                            <div className="py-5 d-flex justify-content-center align-items-center">
+                                <h5 className="mb-0">No Data</h5>
+                            </div>
+                        )
+                    }
+
                 </div>
                 <Footer/>
             </>
