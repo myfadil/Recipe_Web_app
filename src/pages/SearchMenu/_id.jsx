@@ -14,6 +14,7 @@ function MenuById() {
     const [data, setData] = useState(null)
     const [comment, setComment] = useState(null)
     const [like,setLike] = useState(null)
+    const [bookmark,setBookmark] = useState(null)
     const [totalComment, setTotalComment] = useState(0)
     const [inputComment, setInputComment] = useState({
         recipe_id: id,
@@ -21,7 +22,7 @@ function MenuById() {
         user_id: localStorage.getItem("id"),
     })
 
-    const inputLike = {
+    const inputData = {
         ResepID: id,
         UserID: localStorage.getItem("id"),
     }
@@ -64,6 +65,24 @@ function MenuById() {
             })
     }
 
+    const getBookmark = () => {
+        axios.get(import.meta.env.VITE_BASE_URL+`LikeAndBookmark/bookmark/${id}?UserID=${localStorage.getItem("id")}&ResepID=${id}`, {
+            headers: {
+                Authorization : `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+            .then((res) => {
+                console.log(res)
+                setBookmark(res.data.data[0])
+
+
+            })
+            .catch((err) => {
+                console.log(err)
+                toast.error(`${err}`)
+            })
+    }
+
     const getComment = () => {
         axios.get(import.meta.env.VITE_BASE_URL+`comment/${id}`, {
             headers: {
@@ -88,6 +107,7 @@ function MenuById() {
         getData()
         getComment()
         getLike()
+        getBookmark()
     }, [])
 
     const postData = (event) => {
@@ -119,7 +139,7 @@ function MenuById() {
     }
 
     const postLike = () => {
-        axios.post(import.meta.env.VITE_BASE_URL+`LikeAndBookmark/like?UserID=${localStorage.getItem("id")}`,inputLike, {
+        axios.post(import.meta.env.VITE_BASE_URL+`LikeAndBookmark/like?UserID=${localStorage.getItem("id")}`,inputData, {
             headers: {
                 Authorization : `Bearer ${localStorage.getItem("token")}`
             }
@@ -146,6 +166,44 @@ function MenuById() {
             .then((res) => {
                 console.log(res);
                 toast.success('Delete Like Success');
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+            })
+            .catch((err) => {
+                console.log(err)
+                toast.error(`${err}`)
+            })
+    }
+
+    const postBookmark = () => {
+        axios.post(import.meta.env.VITE_BASE_URL+`LikeAndBookmark/bookmark?UserID=${localStorage.getItem("id")}`,inputData, {
+            headers: {
+                Authorization : `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+            .then((res) => {
+                console.log(res);
+                toast.success('Bookmark Success');
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+            })
+            .catch((err) => {
+                console.log(err)
+                toast.error(`${err}`)
+            })
+    }
+
+    const deleteBookmark = () => {
+        axios.delete(import.meta.env.VITE_BASE_URL+`LikeAndBookmark/bookmark?UserID=${localStorage.getItem("id")}&ResepID=${id}`, {
+            headers: {
+                Authorization : `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+            .then((res) => {
+                console.log(res);
+                toast.success('Delete Bookmark Success');
                 setTimeout(() => {
                     window.location.reload();
                 }, 1000);
@@ -233,9 +291,18 @@ function MenuById() {
 
                         </div>
                         <div className="d-flex gap-3 mb-5">
-                            <button className="icon-button-1">
-                                <img src="./../../src/assets/mark.svg" alt="Gambar 1" />
+                            {bookmark?.id == id ? (
+                            <button className="icon-button-1" onClick={deleteBookmark}>
+                                <img src="/./../../src/assets/mark.svg" alt="Gambar 2" />
                             </button>
+                            ) : (
+                            <button className="icon-button-2" onClick={postBookmark}>
+                                <img src="/./../../src/assets/mark.svg" alt="Gambar 2" />
+                            </button>
+                            )}
+                            {/* <button className="icon-button-1">
+                                <img src="./../../src/assets/mark.svg" alt="Gambar 1" />
+                            </button> */}
                             {like?.id == id ? (
                             <button className="icon-button-1" onClick={deleteLike}>
                                 <img src="/./../../src/assets/liked.png" alt="Gambar 2" />
