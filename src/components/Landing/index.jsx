@@ -8,9 +8,9 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import hero from "../../assets/images/egg-sandwich.png";
 import ramen from "../../assets/images/ramen.jpg";
 import ramen2 from "../../assets/images/ramen2.jpg";
-import chiken from "../../assets/Images/chinkenkare.png";
-import bombchiken from "../../assets/Images/bomb-chiken.jpg";
-import coffe from "../../assets/Images/coffecake.png";
+import chiken from "../../assets/images/chinkenkare.png";
+import bombchiken from "../../assets/images/bomb-chiken.jpg";
+import coffe from "../../assets/images/coffecake.png";
 
 const Index = () => {
   useEffect(() => {
