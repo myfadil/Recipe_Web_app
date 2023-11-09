@@ -25,7 +25,7 @@ export default function Like() {
         type: "",
         message: ""
     })
-    const itemsPerPage = 3;
+    const itemsPerPage = 5;
 
 
     const nextPage = () => {
@@ -195,45 +195,47 @@ export default function Like() {
                 </div>
                 {showAlert && <Alert type={alertData.type} message={alertData.message} />}
                 <div className="container">
-                    {data?.map((item, index) => {
-                        return (
-                            <div key={item.id} className="card border-light mb-3" style={{ maxWidth: 540 }}>
-                                <div className="row g-0">
-                                    <div className="col-md-5" style={{ objectFit: 'cover' }}>
-                                        <img
-                                            src={item.photo}
-                                            className="img-fluid img-thumbnail rounded-start"
-                                            style={{
-                                                width: '250px',
-                                                height: '250px'
-                                            }}
-                                            alt="..."
-                                        />
-                                    </div>
-                                    <div className="col-md-7 ">
-                                        <div className="card-body">
-                                            <Link className="text-decoration-none text-black" to={`/detail-menu/${item.id}`}>
-                                                <h5 className="card-title">{item.title}</h5>
-                                            </Link>
-                                            <p className="mb-0">Ingredients :</p>
-                                            <br />
-                                            <p className="card-text">
-                                                {item.ingredients.split(",").map((ingredient, index) => {
-                                                    return <li key={index}>{ingredient}</li>;
-                                                })}
-                                            </p>
-                                            <button
-                                                type="button"
-                                                className="btn btn-primary btn-sm"
-                                                style={{ backgroundColor: "#EFC81A" }}
-                                            >
-                                                10 Likes - 12 Comment - 3 Bookmark
-                                            </button>
+                    {data
+                        ?.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+                        .map((item, index) => {
+                            return (
+                                <div key={index} className="card border-light mb-3" style={{ maxWidth: 540 }}>
+                                    <div className="row g-0">
+                                        <div className="col-md-5" style={{ objectFit: 'cover' }}>
+                                            <img
+                                                src={item.photo}
+                                                className="img-fluid img-thumbnail rounded-start"
+                                                style={{
+                                                    width: '250px',
+                                                    height: '250px'
+                                                }}
+                                                alt="..."
+                                            />
+                                        </div>
+                                        <div className="col-md-7 ">
+                                            <div className="card-body">
+                                                <Link className="text-decoration-none text-black" to={`/detail-menu/${item.id}`}>
+                                                    <h5 className="card-title">{item.title}</h5>
+                                                </Link>
+                                                <p className="mb-0">Ingredients :</p>
+                                                <br />
+                                                <p className="card-text">
+                                                    {item.ingredients.split(",").map((ingredient, index) => {
+                                                        return <li key={index}>{ingredient}</li>;
+                                                    })}
+                                                </p>
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-primary btn-sm"
+                                                    style={{ backgroundColor: "#EFC81A" }}
+                                                >
+                                                    10 Likes - 12 Comment - 3 Bookmark
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>)
-                    })}
+                                </div>)
+                        })}
 
 
                     {totalPages !== 0 ? (

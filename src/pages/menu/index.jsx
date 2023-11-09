@@ -24,7 +24,7 @@ export default function Menu() {
     })
 
     const getData = () => {
-        axios.get(import.meta.env.VITE_BASE_URL + `recipe?page=${currentPage}&&limit=5`, {
+        axios.get(import.meta.env.VITE_BASE_URL + `recipe/my-recipe?page=${currentPage}&&limit=5`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             }
@@ -43,7 +43,7 @@ export default function Menu() {
             })
             .catch((err) => {
                 console.log(err)
-                toast.error(`${err}`)
+                toast.error(`Recipe not found`)
             })
     }
 
@@ -223,13 +223,17 @@ export default function Menu() {
                             </div>)
                     })}
 
-
+                    { pagination.totalData !== 0 ? (
                     <div className="py-5 d-flex justify-content-center align-items-center">
                         <button disabled={currentPage < 2} onClick={() => { setCurrentPage(currentPage - 1) }} className="btn btn-warning me-3 px-4">Prev</button>
                         <h5 className="mb-0">Show {startData} - {endData} From {pagination.totalData}</h5>
                         < button disabled={currentPage >= pagination.totalPage} onClick={() => { setCurrentPage(currentPage + 1) }} className="btn btn-warning ms-3 px-4">Next</button>
-
                     </div>
+                    ) :(
+                        <div className="py-5 d-flex justify-content-center align-items-center">
+                            <h5 className="mb-0">No Data</h5>
+                        </div>
+                    )}
                 </div>
                 <Footer />
             </>
