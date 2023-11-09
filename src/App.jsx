@@ -13,6 +13,7 @@ import AuthChecker from './components/AuthChecker'
 import Register from './pages/Auth/Register';
 import DetailProfile from './pages/Profile/DetailProfile';
 import LandingPage from './pages/landing';
+import Bookmark from './pages/menu/bookmark';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -22,9 +23,9 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Navigate to="/menu" replace={true} />} />
-          {/* <Route path='/menu' element={<Menu />} /> */}
           <Route path='/menu' element={<AuthChecker><Menu/></AuthChecker>} />
           <Route path='/likeMenu' element={<AuthChecker><Like/></AuthChecker>} />
+          <Route path='/bookmarkMenu' element={<AuthChecker><Bookmark/></AuthChecker>} />
           <Route path='/register' element={<Register />} />
           <Route path='/login' element={<Login />} />
           <Route path='/landing' element={<LandingPage />} />
@@ -33,9 +34,6 @@ function App() {
           <Route path='/search-menu' element={<AuthChecker><SearchMenu /></AuthChecker>} />
           <Route path='/detail-menu/:id' element={<AuthChecker><MenuById /></AuthChecker>} />
           <Route path='/detail-profile/:id' element={<AuthChecker><DetailProfile /></AuthChecker>} />
-
-          {/* <Route path='/menu-detail/:menuId' element={<MenuDetail />} />
-        <Route path='/inputmenu' element={<InputMenu />} /> */}
         </Routes>
       </BrowserRouter>
     </>

@@ -26,25 +26,25 @@ export default function Like() {
         message: ""
     })
     const itemsPerPage = 3;
-    
+
 
     const nextPage = () => {
         if (currentPage < totalPages) {
-          setCurrentPage(currentPage + 1);
+            setCurrentPage(currentPage + 1);
         }
-      };
-      
-      const prevPage = () => {
+    };
+
+    const prevPage = () => {
         if (currentPage > 1) {
-          setCurrentPage(currentPage - 1);
+            setCurrentPage(currentPage - 1);
         }
-      };
+    };
     //   console.log(data2.data)
-    
+
     const getData = () => {
-        axios.get(import.meta.env.VITE_BASE_URL+`LikeAndBookmark/like?UserID=${localStorage.getItem("id")}`, {
+        axios.get(import.meta.env.VITE_BASE_URL + `LikeAndBookmark/like?UserID=${localStorage.getItem("id")}`, {
             headers: {
-                Authorization : `Bearer ${localStorage.getItem("token")}`
+                Authorization: `Bearer ${localStorage.getItem("token")}`
             }
         })
             .then((res) => {
@@ -56,17 +56,17 @@ export default function Like() {
                 // if (currentPage === res.data.data.length) {
                 //     setEndData(res.data.data.length)
                 // } else {
-                    //     setEndData(5 + ((currentPage - 1) * 5))
-                    // }
-                    toast.success('Berhasil Get Data')
-                })
-                .catch((err) => {
-                    console.log(err)
-                    toast.error(`${err}`)
-                })
-            }
-            
-            
+                //     setEndData(5 + ((currentPage - 1) * 5))
+                // }
+                toast.success('Berhasil Get Data')
+            })
+            .catch((err) => {
+                console.log(err)
+                toast.error(`${err}`)
+            })
+    }
+
+
     useEffect(() => {
         getData()
     }, [currentPage])
@@ -79,9 +79,9 @@ export default function Like() {
                 {
                     label: "Delete",
                     onClick: () => {
-                        axios.delete(import.meta.env.VITE_BASE_URL+`LikeAndBookmark/like?UserID=${localStorage.getItem("id")}&ResepID=${item.id}`, {
+                        axios.delete(import.meta.env.VITE_BASE_URL + `LikeAndBookmark/like?UserID=${localStorage.getItem("id")}&ResepID=${item.id}`, {
                             headers: {
-                                Authorization : `Bearer ${localStorage.getItem("token")}`
+                                Authorization: `Bearer ${localStorage.getItem("token")}`
                             }
                         })
                             .then((res) => {
@@ -127,18 +127,18 @@ export default function Like() {
                                     }}
                                 >
                                     <div className="d-flex ms-2">
-                                    {localStorage.getItem("photo") !== "null" ?
-            <img
-              src={localStorage.getItem("photo")}
-              alt="profile"
-              width="90px"
-              height="60px"
-              style={{ borderRadius: '50%' }}
-            /> : <img src="https://i.pinimg.com/originals/f1/0f/f7/f10ff70a7155e5ab666bcdd1b45b726d.jpg" 
-            alt="profile"
-              width="60px"
-              style={{ borderRadius: '50%' }}/>
-          }
+                                        {localStorage.getItem("photo") !== "null" ?
+                                            <img
+                                                src={localStorage.getItem("photo")}
+                                                alt="profile"
+                                                width="90px"
+                                                height="60px"
+                                                style={{ borderRadius: '50%' }}
+                                            /> : <img src="https://i.pinimg.com/originals/f1/0f/f7/f10ff70a7155e5ab666bcdd1b45b726d.jpg"
+                                                alt="profile"
+                                                width="60px"
+                                                style={{ borderRadius: '50%' }} />
+                                        }
                                     </div>
                                 </div>
                                 <div className="d-flex flex-column ms-4">
@@ -176,7 +176,7 @@ export default function Like() {
                                             <li className="nav-item">
                                                 <a
                                                     className="nav-link text-body-secondary"
-                                                    href="./detail-profile-bookmark.html"
+                                                    href="./bookmarkMenu"
                                                 >
                                                     Bookmarked
                                                 </a>
@@ -213,10 +213,10 @@ export default function Like() {
                                     <div className="col-md-7 ">
                                         <div className="card-body">
                                             <Link className="text-decoration-none text-black" to={`/detail-menu/${item.id}`}>
-                                            <h5 className="card-title">{item.title}</h5>
+                                                <h5 className="card-title">{item.title}</h5>
                                             </Link>
                                             <p className="mb-0">Ingredients :</p>
-                                            <br/>
+                                            <br />
                                             <p className="card-text">
                                                 {item.ingredients.split(",").map((ingredient, index) => {
                                                     return <li key={index}>{ingredient}</li>;
@@ -236,21 +236,21 @@ export default function Like() {
                     })}
 
 
-                        {totalPages !== 0 ? (
-                    <div className="py-5 d-flex justify-content-center align-items-center">
+                    {totalPages !== 0 ? (
+                        <div className="py-5 d-flex justify-content-center align-items-center">
                             <button disabled={currentPage < 2} onClick={prevPage} className="btn btn-warning me-3 px-4">Prev</button>
                             <h5 className="mb-0">Show Page {currentPage} from {totalPages}</h5>
                             < button disabled={currentPage === totalPages} onClick={nextPage} className="btn btn-warning ms-3 px-4">Next</button>
-                    </div>
-                        ) : (
-                            <div className="py-5 d-flex justify-content-center align-items-center">
-                                <h5 className="mb-0">No Data</h5>
-                            </div>
-                        )
+                        </div>
+                    ) : (
+                        <div className="py-5 d-flex justify-content-center align-items-center">
+                            <h5 className="mb-0">No Data</h5>
+                        </div>
+                    )
                     }
 
                 </div>
-                <Footer/>
+                <Footer />
             </>
         </>
     )

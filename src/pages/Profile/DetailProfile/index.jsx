@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Container, Row, Col, Image, Form, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router';
 import { ToastContainer, toast } from 'react-toastify';
+import MyNavbar from '../../../components/Navbar';
 
 
 const DetailProfile = () => {
@@ -82,6 +83,7 @@ const DetailProfile = () => {
 
     return (
         <Container>
+            <MyNavbar />
             <Row>
                 <Col md={12}>
                     <form className="input-menu d-flex justify-content-center align-items-center flex-column mt-5" onSubmit={postData}>
