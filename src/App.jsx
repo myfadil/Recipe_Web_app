@@ -22,7 +22,7 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<Navigate to="/menu" replace={true} />} />
+          <Route path='/' element={<Navigate to="/landing" replace={true} />} />
           <Route path='/menu' element={<AuthChecker><Menu/></AuthChecker>} />
           <Route path='/likeMenu' element={<AuthChecker><Like/></AuthChecker>} />
           <Route path='/bookmarkMenu' element={<AuthChecker><Bookmark/></AuthChecker>} />

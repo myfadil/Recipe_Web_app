@@ -9,7 +9,7 @@ function MyNavbar() {
 
     const logout = () => {
         localStorage.clear()
-        navigate('/')
+        navigate('/landing')
     }
   return (
     <Navbar expand="lg">
