@@ -146,25 +146,25 @@ export default function Menu() {
                                             style={{ borderColor: "#EFC81A !important" }}
                                         >
                                             <li className="nav-item">
-                                                <a
+                                                <Link
                                                     className="nav-link active text-body-secondary fw-bold"
-                                                    href="./menu"
+                                                    to="/menu"
                                                 >
                                                     Recipes
-                                                </a>
+                                                </Link>
                                             </li>
                                             <li className="nav-item">
-                                                <a
+                                                <Link
                                                     className="nav-link text-body-secondary"
-                                                    href="./bookmarkMenu"
+                                                    to="/bookmarkMenu"
                                                 >
                                                     Bookmarked
-                                                </a>
+                                                </Link>
                                             </li>
                                             <li className="nav-item">
-                                                <a className="nav-link text-body-secondary" href="./likeMenu">
+                                                <Link className="nav-link text-body-secondary" to="/likeMenu">
                                                     Liked
-                                                </a>
+                                                </Link>
                                             </li>
                                         </ul>
                                     </div>

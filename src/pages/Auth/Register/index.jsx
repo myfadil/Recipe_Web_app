@@ -2,6 +2,7 @@ import axios from 'axios';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import logo from '../../../assets/barbecue 1.svg';
 
 export default function Register() {
     const navigate = useNavigate();
@@ -48,7 +49,7 @@ export default function Register() {
             <Row>
                 <Col md={12}>
                     <div className="mt-5 text-center">
-                        <img src="./src/assets/barbecue 1.svg" alt="logo" width="100px" />
+                        <img src={logo} alt="logo" width="100px" />
                         <h4 className="my-3 fw-bold text-warning">Register</h4>
                         <p>Create a new account</p>
                     </div>
