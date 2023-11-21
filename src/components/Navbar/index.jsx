@@ -57,8 +57,8 @@ function MyNavbar() {
           }
           </div>
           <div>
-            <p className="m-0">{localStorage.getItem("username")}</p>
-            <p className="btn m-0 fw-bold" onClick={logout}>Logout</p>
+            <p className="m-0" style={{cursor: 'pointer'}} onClick={() => navigate(`/detail-profile/${localStorage.getItem("id")}`)}>{localStorage.getItem("username")}</p>
+            <p className="btn m-0 fw-bold" style={{cursor: 'pointer'}} onClick={logout}>Logout</p>
           </div>
         </div>
         ):(

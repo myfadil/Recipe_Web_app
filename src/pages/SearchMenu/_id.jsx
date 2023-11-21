@@ -62,6 +62,9 @@ function MenuById() {
             .then((res) => {
                 console.log(res)
                 setLike(res.data.data[0])
+                if (res.data.data.length > 0) {
+                    setIsLiked(true)
+                }
 
 
             })
@@ -80,6 +83,9 @@ function MenuById() {
             .then((res) => {
                 console.log(res)
                 setBookmark(res.data.data[0])
+                if (res.data.data.length > 0) {
+                    setIsBookmarked(true)
+                }
 
 
             })

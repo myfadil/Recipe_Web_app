@@ -176,6 +176,7 @@ export default function SearchMenu() {
                                                                 className="rounded-circle "
                                                                 alt="profile"
                                                                 width="50px"
+                                                                height="50px"
                                                             // height="60px"
                                                             // style={{ width: 40 }}
                                                             />
