@@ -80,7 +80,7 @@ If you want to run this project locally, we recommend you configure the back-end
 
 | Landing Page                                                                                     | Detail Recipe Page                                                                                  |
 | ------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------- |
-| [![landing-page.png](https://i.postimg.cc/pVmxKWGW/landing-page.png)](https://postimg.cc/pyMgHHM4) | [![detail-recipe-page.png](https://i.postimg.cc/VN95QfQQ/detail-recipe-page.png)](https://postimg.cc/B86J2GnM) |
+| [![landing-page.png](https://i.postimg.cc/3xBk4rN8/landing-page.png)](https://postimg.cc/qNNJWT2S) | [![detail-recipe-page.png](https://i.postimg.cc/VN95QfQQ/detail-recipe-page.png)](https://postimg.cc/B86J2GnM) |
 
 | Search Menu Page                                                                                     | Home Page                                                                          |
 | ------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------- |
