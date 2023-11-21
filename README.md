@@ -1,6 +1,6 @@
 <br/>
 <p align="center">
-  <a href="https://recipe-fe-one.vercel.app">
+  <a href="https://recipe-web-app-nu.vercel.app">
     <img src="https://i.postimg.cc/Xq7rdzF9/logo.png" alt="Logo" width="150" height="180">
   </a>
 
@@ -13,7 +13,7 @@
     <a href="https://github.com/myfadil/Recipe_Web_app"><strong>Explore the docs »</strong></a>
     <br/>
     <br/>
-    <a href="https://recipe-fe-one.vercel.app">View Demo</a>
+    <a href="https://recipe-web-app-nu.vercel.app">View Demo</a>
     .
     <a href="https://github.com/myfadil/Recipe_Web_app/issues">Report Bug</a>
     .
